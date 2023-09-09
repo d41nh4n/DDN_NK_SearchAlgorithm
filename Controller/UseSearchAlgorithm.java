@@ -1,19 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package Controller;
+package controller;
 
-import Model.Element;
-import View.Menu;
+import model.Element;
+import view.Menu;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
-/**
- *
- * @author Dai Nhan
- */
+
 public class UseSearchAlgorithm extends Menu<String> {
 
     private Element element;
@@ -29,33 +22,45 @@ public class UseSearchAlgorithm extends Menu<String> {
         element = new Element();
     }
 
-    public int numberArray() {
-        int n;
-        Scanner sc = new Scanner(System.in);
+public int numberArray() {
+    int n;
+    Scanner sc = new Scanner(System.in);
+    while (true) {
+        System.out.print("Enter the number of elements in the array: ");
+        try {
+            String input = sc.nextLine();
+            n = Integer.parseInt(input);
+            if (n >= 1) {
+                break;
+            } else {
+                System.out.println("Please enter a positive number.");
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid input. Please enter a valid number.");
+        }
+    }
+    return n;
+}
+
+
+public void createArrayByInput(int n) {
+    int[] arr = new int[n];
+    Scanner sc = new Scanner(System.in);
+    System.out.println("Enter " + n + " numbers:");
+    for (int i = 0; i < n; i++) {
         while (true) {
-            System.out.println("How many number in array(1-20): ");
             try {
-                String input = sc.nextLine();
-                n = Integer.parseInt(input);
-                if (n >= 1 && n <= 20) {
-                    break;
-                }
-            } catch (Exception e) {
-                System.out.println("Input number from 1 to 20");
+                arr[i] = Integer.parseInt(sc.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid number.");
             }
         }
-        return n;
     }
+    element.setArrayNumber(arr);
+    element.setSizeOfArray(n);
+}
 
-    public void createElementByRandom(int n) {
-        int[] arr = new int[n];
-        Random random = new Random();
-        for (int i = 0; i < n; i++) {
-            arr[i] = random.nextInt(100);
-        }
-        element.setArrayNumber(arr);
-        element.setSizeOfArray(n);
-    }
 //===========================================================================
 
     @Override
@@ -76,14 +81,14 @@ public class UseSearchAlgorithm extends Menu<String> {
         }
     }
 
-    public void search() {
-        int number = numberArray();
-        createElementByRandom(number);
-        int[] arr = element.getArrayNumber();
-        System.out.println("Your random array number");
-        for (int i = 0; i < arr.length; i++) {
-            System.out.println(arr[i]);
-        }
+public void search() {
+    int number = numberArray();
+    createArrayByInput(number);
+    int[] arr = element.getArrayNumber();
+    System.out.println("Your array:");
+    for (int i = 0; i < arr.length; i++) {
+        System.out.println(arr[i]);
+    }
         String[] mcSearch = {"Linear Search", "Binary Search", "Exit"};
         Menu menu = new Menu("Search Menu", mcSearch) {
             @Override
